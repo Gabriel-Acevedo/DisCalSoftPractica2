@@ -1,0 +1,150 @@
+@startuml
+
+
+title Mastermind MVC - Class Diagram Gabriel
+
+package LOGIC <<Folder>>{
+    class Mastermind{
+        +main()
+    }
+    
+    class Game {
+        -{static}max_long
+        +ConsoleView
+        +StartController
+        +secretCombination
+        +proposedCombinations
+        +results
+        +Game()
+        +play()
+        +clear()
+        +isFinished()
+        +writelnS()
+        +getAttemps()
+        +isResumed()
+    }
+}
+
+package CONTROLLERS <<Folder>>{
+
+    class Controller{
+        -{static}Width
+        -{static}Max_long
+        +colors
+        +console
+        +getWidth()
+    }
+    
+    class StartController{
+        +StartController()
+        +getResult()
+        +writeln()
+    }
+    
+    class ProposedCombinationController{
+        +write()
+        +read()
+        +contains(color)
+        +contains(color,position)
+    }
+    
+    class ResumeController{
+        +blacks
+        +whites
+        +ResumeController()
+        +isWinner()
+        +writeln()
+    }
+
+}
+
+package VIEWS <<Folder>>{
+
+    class ConsoleView{
+        -{static}BufferedReader
+        +readString(title)
+        +readString(title)
+        +readInt(title)
+        +readChar(title)
+        +writeln(title)
+        +write(string)
+        +writeln(string)
+        +write(character)
+        +writeError(format)
+        
+    }
+    
+    class Resumeview{
+        +consoleview
+        -{static}afirmative
+        -{static}negative
+        -{static}question
+        -{static}message
+        +read()
+        +{static}isAfirmative()
+        +{static}isNegative()
+    }
+    
+    interface View{
+    }
+
+    enum Color{
+        #RED
+        #BLUE
+        #YELLOW
+        #GREEN
+        #ORANGE
+        #PURPLE
+        +initial
+        +color()
+        +{static}allInitials()
+        +{static}getInstance(code)
+        +{static}getInstance(character)
+        +{static}length()
+        +{static}write()
+    }
+    
+    enum Message{
+        #ATTEMPTS
+        #SECRET
+        #RESUME
+        #RESULT
+        #PROPOSED_COMBINATION
+        #TITLE
+        #WINNER
+        #LOOSER
+        #NEW_LINE
+        +message
+        -{static}ConsoleView
+        +Message()
+        +write()
+        +writeln()
+        +writeln(attempts)
+        +writeln(blacks,whites)
+    }
+    
+    enum Error{
+        #DUPLICATED
+        #WRONG_CHARACTERS
+        #WRONG_LENGTH
+        +Error(message)
+        +writeln()
+    }
+
+}
+
+Mastermind *-down-> Game
+Game *-right-> StartController
+Controller *-down-> StartController
+Controller *-down-> ProposedCombinationController
+Controller *-down-> ResumeController
+Controller *-right-> ConsoleView
+View <|-down- ConsoleView
+View *-down-> Color
+View *-down-> Message
+View *-down-> Error
+ConsoleView *-down-> Resumeview
+
+
+
+@enduml
